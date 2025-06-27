@@ -3,13 +3,16 @@ import pokebase as pb
 import requests
 
 # Getting Pokemon Description
-
+#%%
 def get_pokemon_description(pokemon_input):  
 
     pokemon = pb.pokemon(pokemon_input)
 
     # Basic charcteristics
     name = pokemon.name
+
+    base_experience = pokemon.base_experience
+
     habitat = pokemon.species.habitat.name
 
     ability_list = []
@@ -19,6 +22,8 @@ def get_pokemon_description(pokemon_input):
     poke_type = []
     for t in pokemon.types:
         poke_type.append(t.type.name)
+
+    
 
     # Evolution Chain
     def get_evolution_chain(chain, result=None):

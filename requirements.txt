@@ -1,0 +1,12 @@
+streamlit
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langgraph
+pokebase
+requests
+Pillow
+sentence-transformers
+chromadb
+img2vec-pytorch

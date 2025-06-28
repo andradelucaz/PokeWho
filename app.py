@@ -19,8 +19,14 @@ if user_input:
     st.write(f"👤 **Você:** {user_input}")
     
     try:
+        import time
+        total_start = time.time()
+        
         # Carregar agente
+        agent_start = time.time()
         agent = load_agent()
+        agent_load_time = time.time() - agent_start
+        print(f"⚡ [AGENT LOAD] {agent_load_time:.2f}s")
         
         # Criar state inicial
         initial_state = {
@@ -30,15 +36,25 @@ if user_input:
         }
         
         # Invocar agente
+        invoke_start = time.time()
         with st.spinner("🔍 Pensando..."):
             result = agent.invoke(initial_state)
+        invoke_time = time.time() - invoke_start
+        
+        total_time = time.time() - total_start
         
         # Mostrar resposta
         final_message = result["messages"][-1]
         st.write(f"🤖 **PokeWho:** {final_message.content}")
         
+        # Mostrar métricas de performance
+        st.success(f"⏱️ **Tempo total:** {total_time:.2f}s | **Processamento:** {invoke_time:.2f}s")
+        
         # Debug info (opcional)
-        with st.expander("Debug Info"):
+        with st.expander("Debug Performance"):
+            st.write(f"**Carregamento do Agent:** {agent_load_time:.2f}s")
+            st.write(f"**Processamento do Agent:** {invoke_time:.2f}s")
+            st.write(f"**Tempo Total:** {total_time:.2f}s")
             st.write("**Messages:**", len(result["messages"]))
             st.write("**Final State:**", {k: v for k, v in result.items() if k != "messages"})
             

@@ -2,6 +2,14 @@
 import pokebase as pb
 import requests
 
+
+pokemon = pb.pokemon('pikachu')
+
+name = pokemon.name
+
+base_experience = pokemon.base_experience
+habitat = pokemon.species.habitat.name if pokemon.species.habitat else "unknown"
+    
 # Getting Pokemon Description
 #%%
 def get_pokemon_data(pokemon_input):  
@@ -13,8 +21,7 @@ def get_pokemon_data(pokemon_input):
 
     base_experience = pokemon.base_experience
 
-    habitat = pokemon.species.habitat.name
-
+    habitat = pokemon.species.habitat.name if pokemon.species.habitat else "unknown"
     ability_list = []
     for a in pokemon.abilities:
         ability_list.append(a.ability.name) 
@@ -85,7 +92,6 @@ def get_pokemon_data(pokemon_input):
 
 
     return {
-    'description': description, 
     'name': name, 
     'habitat': habitat, 
     'ability': ability_list, 
@@ -119,20 +125,19 @@ def get_pokemon_data(pokemon_input):
 from sentence_transformers import SentenceTransformer
 from chromadb import PersistentClient
 
-model = SentenceTransformer('cenfis/turemb_512') 
+model = SentenceTransformer('all-MiniLM-L6-v2') 
 
 import chromadb 
 client = PersistentClient(path="./data/chromadb")
-# collection = client.get_collection('pokemons')
+#collection = client.get_collection('pokemons')
 # img_collection = client.get_collection('pokemon_images')
 collection = client.create_collection('pokemons')
 #img_collection = client.create_collection('pokemon_images')
 
 from img2vec_pytorch import Img2Vec
-#%%
-pokemon_list = pb.pokemon_list(limit=2000)  
 
-for i, entry in enumerate(pokemon_list.results):
+#%%
+for i in range(832, 1032):
 
     # Getting descriptions
     result = get_pokemon_data(i)
@@ -202,4 +207,6 @@ for i, entry in enumerate(pokemon_list.results):
     #     documents = [description]
     # )
 
- # %%
+    print(result['name'],"(",i,")", " loaded")
+
+

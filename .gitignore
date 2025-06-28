@@ -1,3 +1,11 @@
-.poke-env
-AGENT.md
-.vscode
+.poke-env/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+data/chromadb/
+sprites/
+.vscode/
+.md

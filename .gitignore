@@ -8,4 +8,5 @@ __pycache__/
 data/chromadb/
 sprites/
 .vscode/
-.md
+AGENT.md
+
